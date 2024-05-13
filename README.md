@@ -1,16 +1,16 @@
 # Title
 > Lovely Lawns
 ## Team Members
-> Victor Lor 
+> Victor Lor, Jaskaran Chahal, Syed Hassan
 
  
 
 ## Nickname
 
-> An acronym or short name for your project.
+> Lovely Lawns Project
 
 
 ## Description 
-> short paragraph 5 sentences
->  A brief description of what your app will be like and why it's interesting. Include brief summaries for the services provided by the app.
-> Possible questions to answer here:  What is the motivation for the app? What are the goals of the app/ What problem will the app solve? What sorts of features will the app have? What makes this app interesting/cool? 
+>  Our app will be a social platform dedicated to all things gardening. For example, if user wants to build their garden, they can use our app to get ideas to build an amazing garden. Users will be able to create their own profile and then create posts asking questions for something they need help with or navigate through forums created by other users in order to find the information they need. 
+> Users will also be able to reply to others' posts in order to answer questions or further discuss something. Users can also subscribe to certain forums that they wish to remain updated on. When opening the app the user will first see the forums they are subscribed to and can then navigate through the app to see other posts.
+> Admins will be able to monitor forums and delete posts and/or comments that would be considered inappropriate or not about gardening. 

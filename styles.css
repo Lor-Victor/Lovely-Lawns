@@ -277,3 +277,13 @@ input{
     height: 45px;
     object-fit: contain;
 }
+.admindelete{
+    background-color: red;
+    display:inline-block;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    width: 15%;
+}

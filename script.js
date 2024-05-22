@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isCreatingPost = false;
 //divide the middle section better and make forums open new page with entire forum
 //add reply btns and add view more replies which opens to entire post
-    
+
     newPostBtn.addEventListener('click', () => {
         modalTitle.textContent = 'Create New Post';
         inputTitle.value = '';

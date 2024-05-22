@@ -116,9 +116,19 @@ button:hover {
 .pure-form{
     text-align: center;
 }
-.pure-button{
-    width:25%;
-    margin-left: 30%;
+/* .pure-button{
+    width:5%;
+    margin-left: 30%; 
+} */
+.pure-button {
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 16px;
+    width: auto;
+    display: inline-block;
 }
 input{
     height:20px;
@@ -162,14 +172,13 @@ input{
 }
 
 .reply {
+    display: inline-block;
     background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
-    margin: 5px 0;
-    flex-grow: 1;
     text-align: center;
 }
 
@@ -219,4 +228,47 @@ input{
 
 .nav-button:hover {
     background-color: #45a049;
+}
+#reg{
+    margin-top: 5px;
+    font-size: 12px;
+}
+#reg a{
+    color: white;
+}
+#signupbtn{
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 16px;
+    width: auto;
+    display: inline-block;
+    margin-top: 10% ;
+}
+#signupbtn:hover {
+    background-color: #45a049;
+}
+
+#body{
+    font-family: Arial, sans-serif;
+    text-align: center;
+    width: fit-content;
+    margin: 60px auto;
+    padding: 20px;
+    background-color: lightpeach; ;
+    box-shadow: 0px 10px 90px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+#body-content p {
+    text-align: left;
+    margin-bottom: 0px;
+}
+#signin {
+    color: black;
+    font-size: 12px;
+}
+#signin a { 
+    text-decoration: underline;
+    color: black ;
 }

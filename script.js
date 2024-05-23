@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputTitle.value = '';
         inputContent.value = '';
         modal.style.display = 'flex';
-        isCreatingPost = false;
+        isCreatingPost = true;
         replyingTo = null;
     });
 

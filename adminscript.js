@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputContent = document.getElementById('inputcontent');
     const submitBtn = document.getElementById('submitbtn');
     const forumsContainer = document.getElementById('forums');
+    const newAnnounceBtn = document.getElementById('announcebtn');
     const repbtn = document.getElementById('repbtn')
     let isCreatingPost = false;
 //divide the middle section better and make forums open new page with entire forum
@@ -62,5 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
          else {
             alert('Title and content cannot be empty.');
         }
+    });
+
+    newAnnounceBtn.addEventListener('click', () => {
+        modalTitle.textContent = 'Create Announcement';
+        inputTitle.value = '';
+        inputContent.value = '';
+        modal.style.display = 'flex';
+        isCreatingPost = true;
     });
 });

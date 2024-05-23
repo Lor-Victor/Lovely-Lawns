@@ -177,6 +177,17 @@ input{
     border-radius: 5px;
     text-align: center;
 }
+.view-replies {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    width: 15%;
+}
 
 .reply:hover {
     background-color: #45a049;
@@ -286,4 +297,15 @@ input{
     border-radius: 5px;
     text-align: center;
     width: 15%;
+}
+.reply-content {
+    margin-left: 20px;
+    padding: 10px;
+    background-color: #e9e9e9;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.replies-container {
+    margin-top: 10px;
 }

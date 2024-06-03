@@ -1,4 +1,11 @@
 package com.example.Lovelylawnsbe.LL;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +16,8 @@ import java.util.List;
 @RequestMapping("/api/posts")
 public class PostCont {
 
+    @Autowired
+    private ReplyServ replyServ;
     @Autowired
     private PostServ postServ;
     @Autowired
@@ -33,6 +42,7 @@ public class PostCont {
         Post savedPost = postServ.saveOrUpdatePost(post);
         return ResponseEntity.ok().body(savedPost);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable(value = "id") int postId, @RequestBody Post postDetails) {
@@ -66,4 +76,11 @@ public class PostCont {
         userServ.saveOrUpdateUser(user);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{postId}/replies")
+    public ResponseEntity<List<Reply>> getRepliesUnderPost(@PathVariable(value = "postId") int postId) {
+        List<Reply> replies = replyServ.getRepliesByPost(postId);
+        return ResponseEntity.ok().body(replies);
+    }
+
 }

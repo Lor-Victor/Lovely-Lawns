@@ -1,9 +1,10 @@
 package com.example.Lovelylawnsbe.LL;
+
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
-@Table(name ="users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +24,6 @@ public class User {
     )
     private List<Post> savedPosts = new ArrayList<>();
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public int getUserId() {
         return userId;
@@ -37,6 +31,14 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -71,3 +73,5 @@ public class User {
         this.savedPosts = savedPosts;
     }
 }
+
+

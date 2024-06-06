@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Information</title>
+</head>
+<body>
+<h1>Plant Information</h1>
+<div>
+    <h2>Common Name: <span th:text="${commonName}"></span></h2>
+    <p><strong>Scientific Name:</strong> <span th:text="${scientificName}"></span></p>
+    <p><strong>Other Names:</strong> <span th:each="name : ${otherNames}" th:text="${name}"></span></p>
+    <p><strong>Sunlight:</strong> <span th:each="sunlight : ${sunlight}" th:text="${sunlight}"></span></p>
+    <p><strong>Origin:</strong> <span th:each="country : ${origin}" th:text="${country}"></span></p>
+    <p><strong>Cycle:</strong> <span th:each="cycle : ${cycle}" th:text="${cycle}"></span></p>
+    <p><strong>Watering:</strong> <span th:each="watering : ${watering}" th:text="${watering}"></span></p>
+    <p><strong>Description:</strong> <span th:each="description : ${description}" th:text="${description}"></span></p>
+    <p><strong>Maintenance:</strong> <span th:each="maintenance : ${maintenance}" th:text="${maintenance}"></span></p>
+    <p><strong>Growth Rate:</strong> <span th:each="growth_rate : ${growth_rate}" th:text="${growth_rate}"></span></p>
+    <a th:href="@{/posts/}">Back to Posts</a>
+</div>
+</body>
+</html>

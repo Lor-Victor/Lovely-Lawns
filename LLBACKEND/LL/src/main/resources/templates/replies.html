@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Replies</title>
+</head>
+<body>
+<h1>All Replies</h1>
+<ul>
+    <li th:each="reply : ${replies}">
+        <a th:href="@{'/replies/' + ${reply.replyId}}"><span th:text="${reply.content}"></span></a>
+    </li>
+</ul>
+<a href="/replies/new">Create New Reply</a>
+</body>
+</html>

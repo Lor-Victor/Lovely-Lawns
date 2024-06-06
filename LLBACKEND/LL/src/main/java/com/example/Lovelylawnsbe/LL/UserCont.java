@@ -1,81 +1,68 @@
 package com.example.Lovelylawnsbe.LL;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
 public class UserCont {
 
     @Autowired
-    private UserServ userServ;
+    private UserServ userService;
 
-    //    @GetMapping("/all")
-//    public ResponseEntity<List<User>> getAllUsers() {
-//        List<User> users = userServ.getAllUsers();
-//        return ResponseEntity.ok().body(users);
-//    }
-    @GetMapping("/all")
+    @GetMapping("/")
     public String getAllUsers(Model model) {
-        List<User> users = userServ.getAllUsers();
+        List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "user-list";
+        return "users";
     }
 
-    @PostMapping("/update")
-    public String updateUser(@ModelAttribute User user) {
-        userServ.saveOrUpdateUser(user);
-        return "redirect:/users/" + user.getUserId();
+    @GetMapping("/{id}")
+    public String getUserById(@PathVariable(value = "id") int userId, Model model) {
+        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        model.addAttribute("user", user);
+        return "user";
     }
 
-//    @GetMapping("/update/{id}")
-//    public String showUpdateForm(@PathVariable int id, Model model) {
-//        User user = userServ.getUserById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-//        model.addAttribute("user", user);
-//        return "userUpdate";
-//    }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable(value = "id") int userId) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        return ResponseEntity.ok().body(user);
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
     }
 
-    //    @PostMapping("/register")
-//    public ResponseEntity<User> registerUser(@RequestBody User user) {
-//        User savedUser = userServ.saveOrUpdateUser(user);
-//        return ResponseEntity.ok().body(savedUser);
-//    }
     @PostMapping("/register")
-    public String registerUser(User user) {
-        userServ.saveOrUpdateUser(user);
-        return "redirect:/users/all";
+    public String registerUser(@ModelAttribute User user, Model model) {
+        User savedUser = userService.saveOrUpdateUser(user);
+        return "redirect:/users/";
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") int userId, @RequestBody User userDetails) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+    @GetMapping("/{id}/edit")
+    public String showUpdateForm(@PathVariable(value = "id") int userId, Model model) {
+        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        model.addAttribute("user", user);
+        return "update_user";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String updateUser(@PathVariable(value = "id") int userId, @RequestBody User userDetails) {        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         user.setUsername(userDetails.getUsername());
         user.setEmail(userDetails.getEmail());
         user.setPassword(userDetails.getPassword());
-        User updatedUser = userServ.saveOrUpdateUser(user);
-        return ResponseEntity.ok().body(updatedUser);
+        User updatedUser = userService.saveOrUpdateUser(user);
+        return "redirect:/users/" + userId;
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") int userId) {
-//        userServ.deleteUser(userId);
-//        return ResponseEntity.ok().build();
-
-    @DeleteMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable int userId) {
-        userServ.deleteUser(userId);
-        return "redirect:/users/all";
+    @PostMapping("/{id}/delete")
+    public String deleteUser(@PathVariable(value = "id") int userId) {
+        userService.deleteUser(userId);
+        return "redirect:/users/";
     }
-
 }
+
+
+

@@ -1,86 +1,91 @@
 package com.example.Lovelylawnsbe.LL;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.mashape.unirest.http.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/posts")
+@Controller
+@RequestMapping("/posts")
 public class PostCont {
 
     @Autowired
-    private ReplyServ replyServ;
+    private ReplyServ replyService;
+
     @Autowired
-    private PostServ postServ;
+    private PostServ postService;
+
     @Autowired
-    private UserServ userServ;
+    private UserServ userService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postServ.getAllPosts();
-        return ResponseEntity.ok().body(posts);
+    public String getAllPosts(Model model) {
+        List<Post> posts = postService.getAllPosts();
+        model.addAttribute("posts", posts);
+        return "posts";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") int postId) {
-        Post post = postServ.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
-        return ResponseEntity.ok().body(post);
+    public String getPostById(@PathVariable(value = "id") int postId, Model model) {
+        Post post = postService.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+        model.addAttribute("post", post);
+        return "post";
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        User user = userServ.findByUsername(post.getUser().getUsername());
+    @GetMapping("/new")
+    public String showCreatePostForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "create_post";
+    }
+
+    @PostMapping("/new")
+    public String createPost(@ModelAttribute("post") Post post, Model model) {
+        User user = userService.findByUsername(post.getUser().getUsername());
         post.setUser(user);
-        Post savedPost = postServ.saveOrUpdatePost(post);
-        return ResponseEntity.ok().body(savedPost);
+        Post savedPost = postService.saveOrUpdatePost(post);
+        String title = post.getTitle();
+        return "redirect:/api/perenual/getPlantInfoByCommonName/" + title;
     }
 
+    @GetMapping("/{id}/edit")
+    public String showUpdatePostForm(@PathVariable(value = "id") int postId, Model model) {
+        Post post = postService.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+        model.addAttribute("post", post);
+        return "update_post";
+    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable(value = "id") int postId, @RequestBody Post postDetails) {
-        Post post = postServ.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+    @PostMapping("/{id}/edit")
+    public String updatePost(@PathVariable(value = "id") int postId, @RequestBody Post postDetails) {
+        Post post = postService.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
         post.setTitle(postDetails.getTitle());
         post.setContent(postDetails.getContent());
-        Post updatedPost = postServ.saveOrUpdatePost(post);
-        return ResponseEntity.ok().body(updatedPost);
+        Post updatedPost = postService.saveOrUpdatePost(post);
+        return "posts";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePost(@PathVariable(value = "id") int postId) {
-        postServ.deletePost(postId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{userId}/save/{postId}")
-    public ResponseEntity<?> savePost(@PathVariable(value = "userId") int userId, @PathVariable(value = "postId") int postId) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        Post post = postServ.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+    @PostMapping("/{postId}/save/{userId}")
+    public String savePost(@PathVariable(value = "userId") int userId, @PathVariable(value = "postId") int postId) {
+        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        Post post = postService.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
         user.getSavedPosts().add(post);
-        userServ.saveOrUpdateUser(user);
-        return ResponseEntity.ok().build();
+        userService.saveOrUpdateUser(user);
+        return "redirect:/posts/" + postId;
     }
 
-    @DeleteMapping("/{userId}/unsave/{postId}")
-    public ResponseEntity<?> unsavePost(@PathVariable(value = "userId") int userId, @PathVariable(value = "postId") int postId) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        Post post = postServ.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+    @PostMapping("/{postId}/unsave/{userId}")
+    public String unsavePost(@PathVariable(value = "userId") int userId, @PathVariable(value = "postId") int postId) {
+        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        Post post = postService.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
         user.getSavedPosts().remove(post);
-        userServ.saveOrUpdateUser(user);
-        return ResponseEntity.ok().build();
+        userService.saveOrUpdateUser(user);
+        return "redirect:/posts/" + postId;
     }
 
-    @GetMapping("/{postId}/replies")
-    public ResponseEntity<List<Reply>> getRepliesUnderPost(@PathVariable(value = "postId") int postId) {
-        List<Reply> replies = replyServ.getRepliesByPost(postId);
-        return ResponseEntity.ok().body(replies);
-    }
 
 }
+
+
+

@@ -1,36 +1,65 @@
 package com.example.Lovelylawnsbe.LL;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "plants")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Plant {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(name = "scientific_name")
-    private String scientificName;
+    private String common_name;
+    private String scientific_name;
 
+    @Embedded
+    private Image image;
 
-    public Long getId() {
+    public Plant() {
+    }
+
+    public Plant(String common_name, String scientific_name, Image image) {
+        this.common_name = common_name;
+        this.scientific_name = scientific_name;
+        this.image = image;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getScientificName() {
-        return scientificName;
+    public String getCommon_name() {
+        return common_name;
     }
 
-    public void setScientificName(String scientificName) {
-        this.scientificName = scientificName;
+    public void setCommon_name(String common_name) {
+        this.common_name = common_name;
     }
 
+    public String getScientific_name() {
+        return scientific_name;
+    }
+
+    public void setScientific_name(String scientific_name) {
+        this.scientific_name = scientific_name;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }
+
+
+
 

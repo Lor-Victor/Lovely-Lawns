@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create New Reply</title>
+</head>
+<body>
+<h1>Create New Reply</h1>
+<form th:action="@{/replies/new}" th:object="${reply}" method="post">
+    <label>Content: <textarea th:field="*{content}"></textarea></label><br />
+    <input type="submit" value="Submit" />
+</form>
+</body>
+</html>

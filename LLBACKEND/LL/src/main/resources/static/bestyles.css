@@ -1,0 +1,45 @@
+/*backend styles specifically for user-list*/
+.header{
+    margin-top: auto;
+    background-color: #4CAF50;
+    font-size: larger;
+    height: 90px;
+    color: #fff;
+    text-align: center;
+}
+#logo{
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+.mainhead{
+    font-size: 60px;
+    font-weight: bold;
+}
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    color: white;
+}
+.nav-button {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-button:hover {
+    background-color: #45a049;
+}

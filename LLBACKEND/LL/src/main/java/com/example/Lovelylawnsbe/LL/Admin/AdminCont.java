@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/home")
@@ -19,6 +16,8 @@ public class AdminCont{
     private PostServ postServ;
     @Autowired
     private ForumServ forumServ;
+    @Autowired
+    private AnnouncementServ announcementServ;
 
     @GetMapping
     public String home() {
@@ -30,32 +29,44 @@ public class AdminCont{
         model.addAttribute("users", userServ.getAllUsers());
         return "user-list";
     }
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable(value = "id") int userId) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        return ResponseEntity.ok().body(user);
+
+    @GetMapping("/user")
+    public String getUserById(@RequestParam(value = "userId") int userId, Model model) {
+        try {
+            User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+            model.addAttribute("user", user);
+            return "user-detail";
+        }catch(ResourceNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
     @GetMapping("/delete/user/{userId}")
     public String deleteUser(@PathVariable int userId) {
         userServ.deleteUser(userId);
         return "redirect:/home/all-users";
     }
-    @GetMapping("/getpost")
+    @GetMapping("/post")
     public String getPostById(@RequestParam("postId") int postId, Model model) {
-        Post post = postServ.getPostById(postId)
-                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
-        model.addAttribute("post", post);
-        return "post-detail";
+        try {
+            Post post = postServ.getPostById(postId).orElseThrow(() -> new ResourceNotFoundException("Post not found with id: " + postId));
+            model.addAttribute("post", post);
+            return "post-detail";
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
     }
+
     @GetMapping("/all-posts")
     public String getAllPosts(Model model) {
         model.addAttribute("posts", postServ.getAllPosts());
         return "post-list";
     }
-    @GetMapping("/delete/{postId}")
+    @GetMapping("/delete/post/{postId}")
     public String deletePost(@PathVariable int postId) {
         postServ.deletePost(postId);
-        return "redirect:/home/all";
+        return "redirect:/home/all-posts";
     }
     @GetMapping("/all-forums")
     public String getAllForums(Model model) {
@@ -66,5 +77,15 @@ public class AdminCont{
     public String deleteForum(@PathVariable int forumId) {
         forumServ.deleteForum(forumId);
         return "redirect:/home/all-forums";
+    }
+    @GetMapping("/delete/announcement/{anncmtID}")
+    public String deleteAnnouncement(@RequestParam("anncmtId") int anncmtId) {
+        announcementServ.deleteAnnouncement(anncmtId);
+        return "redirect:/home/all-announcements";
+    }
+    @PostMapping("/save")
+    public String saveAnnouncement(@ModelAttribute("announcement") Announcement announcement) {
+        announcementServ.saveAnnouncement(announcement);
+        return "redirect:/home/announcements/list";
     }
 }

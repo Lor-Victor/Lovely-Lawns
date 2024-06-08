@@ -34,6 +34,10 @@
 </div>
 <div class="container">
     <h1>User List</h1>
+    <form action="/home/user" method="get">
+        <input type="text" id="userId" name="userId" placeholder="User Id" required/>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
     <table class="table table-striped mt-3">
         <thead>
         <tr>
@@ -50,7 +54,7 @@
             <td data-th-text="${user.username}"></td>
             <td data-th-text="${user.email}"></td>
             <td>
-                <a class="btn btn-delete" data-th-href="@{/users/delete/{userId}(userId=${user.userId})}" onclick="return confirm ('Are your sure?')">Delete User</a>
+                <a class="btn btn-delete" data-th-href="@{/home/delete/user/{userId}(userId=${user.userId})}" onclick="return confirm ('Would you like to delete this user?')">Delete User</a>
             </td>
         </tr>
         </tbody>

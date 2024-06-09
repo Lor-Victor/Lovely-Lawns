@@ -1,56 +1,76 @@
 package com.example.Lovelylawnsbe.LL;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/replies")
+@Controller
+@RequestMapping("/replies")
 public class ReplyCont {
 
     @Autowired
-    private ReplyServ replyServ;
+    private ReplyServ replyService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Reply>> getAllReplies() {
-        List<Reply> replies = replyServ.getAllReplies();
-        return ResponseEntity.ok().body(replies);
+    public String getAllReplies(Model model) {
+        List<Reply> replies = replyService.getAllReplies();
+        model.addAttribute("replies", replies);
+        return "replies";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reply> getReplyById(@PathVariable(value = "id") int replyId) {
-        Reply reply = replyServ.getReplyById(replyId).orElseThrow(() -> new ResourceNotFoundException("Reply not found with id: " + replyId));
-        return ResponseEntity.ok().body(reply);
+    public String getReplyById(@PathVariable(value = "id") int replyId, Model model) {
+        Reply reply = replyService.getReplyById(replyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reply not found with id: " + replyId));
+        model.addAttribute("reply", reply);
+        return "reply";
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Reply> createReply(@RequestBody Reply reply) {
-        Reply savedReply = replyServ.saveOrUpdateReply(reply);
-        return ResponseEntity.ok().body(savedReply);
+    @GetMapping("/new")
+    public String showCreateReplyForm(Model model) {
+        model.addAttribute("reply", new Reply());
+        return "create_reply";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Reply> updateReply(@PathVariable(value = "id") int replyId, @RequestBody Reply replyDetails) {
-        Reply reply = replyServ.getReplyById(replyId).orElseThrow(() -> new ResourceNotFoundException("Reply not found with id: " + replyId));
+    @PostMapping("/new")
+    public String createReply(@ModelAttribute Reply reply) {
+        replyService.saveOrUpdateReply(reply);
+        return "redirect:/replies/";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showUpdateReplyForm(@PathVariable(value = "id") int replyId, Model model) {
+        Reply reply = replyService.getReplyById(replyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reply not found with id: " + replyId));
+        model.addAttribute("reply", reply);
+        return "update_reply";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String updateReply(@PathVariable(value = "id") int replyId, @ModelAttribute Reply replyDetails) {
+        Reply reply = replyService.getReplyById(replyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reply not found with id: " + replyId));
         reply.setContent(replyDetails.getContent());
-        Reply updatedReply = replyServ.saveOrUpdateReply(reply);
-        return ResponseEntity.ok().body(updatedReply);
+        replyService.saveOrUpdateReply(reply);
+        return "redirect:/replies/";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteReply(@PathVariable(value = "id") int replyId) {
-        replyServ.deleteReply(replyId);
-        return ResponseEntity.ok().build();
+    @PostMapping("/{id}/delete")
+    public String deleteReply(@PathVariable(value = "id") int replyId) {
+        replyService.deleteReply(replyId);
+        return "redirect:/replies/";
     }
 
     @GetMapping("/post/{postId}/replies")
-    public ResponseEntity<List<Reply>> getRepliesByPost(@PathVariable(value = "postId") int postId) {
-        List<Reply> replies = replyServ.getRepliesByPost(postId);
-        return ResponseEntity.ok().body(replies);
+    public String getRepliesByPost(@PathVariable(value = "postId") int postId, Model model) {
+        List<Reply> replies = replyService.getRepliesByPost(postId);
+        model.addAttribute("replies", replies);
+        return "post_replies";
     }
-
 }
+
 
 

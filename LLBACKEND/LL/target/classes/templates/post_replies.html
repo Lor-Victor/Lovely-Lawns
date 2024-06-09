@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Replies</title>
+</head>
+<body>
+<h1>Replies for Post</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reply : ${replies}">
+        <td th:text="${reply.replyId}">1</td>
+        <td th:text="${reply.username}">Username</td>
+        <td th:text="${reply.content}">Reply content</td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/posts/}">Back to Posts</a>
+</body>
+</html>

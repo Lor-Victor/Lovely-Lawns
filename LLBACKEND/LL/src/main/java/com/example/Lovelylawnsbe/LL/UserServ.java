@@ -1,6 +1,8 @@
 package com.example.Lovelylawnsbe.LL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -8,25 +10,27 @@ import java.util.Optional;
 public class UserServ {
 
     @Autowired
-    private UserRep userRep;
+    private UserRep userRepository;
 
     public List<User> getAllUsers() {
-        return userRep.findAll();
+        return userRepository.findAll();
     }
 
     public Optional<User> getUserById(int id) {
-        return userRep.findById(id);
+        return userRepository.findById(id);
     }
 
     public User saveOrUpdateUser(User user) {
-        return userRep.save(user);
+        return userRepository.save(user);
     }
 
     public void deleteUser(int id) {
-        userRep.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     public User findByUsername(String username) {
-        return userRep.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 }
+
+

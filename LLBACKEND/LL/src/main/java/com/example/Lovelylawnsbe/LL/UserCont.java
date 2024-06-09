@@ -1,18 +1,18 @@
 package com.example.Lovelylawnsbe.LL;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/index")
 public class UserCont {
 
     @Autowired
+
     private UserServ userServ;
     @GetMapping
     public String index() {
@@ -24,21 +24,28 @@ public class UserCont {
     public String updateUser(@ModelAttribute User user) {
         userServ.saveOrUpdateUser(user);
         return "redirect:/users/" + user.getUserId();
+    private UserServ userService;
     }
 
-//    @GetMapping("/update/{id}")
-//    public String showUpdateForm(@PathVariable int id, Model model) {
-//        User user = userServ.getUserById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-//        model.addAttribute("user", user);
-//        return "userUpdate";
-//    }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable(value = "id") int userId) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        return ResponseEntity.ok().body(user);
+    @GetMapping("/")
+    public String getAllUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "users";
     }
 
+    @GetMapping("/{id}")
+    public String getUserById(@PathVariable(value = "id") int userId, Model model) {
+        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        model.addAttribute("user", user);
+        return "user";
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
 
     @PostMapping("/home")
     public String registerUser(User user) {
@@ -46,19 +53,28 @@ public class UserCont {
         return "userhome";
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") int userId, @RequestBody User userDetails) {
-        User user = userServ.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute User user, Model model) {
+        User savedUser = userService.saveOrUpdateUser(user);
+        return "redirect:/users/";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showUpdateForm(@PathVariable(value = "id") int userId, Model model) {
+        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        model.addAttribute("user", user);
+        return "update_user";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String updateUser(@PathVariable(value = "id") int userId, @RequestBody User userDetails) {        User user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        user = userService.getUserById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         user.setUsername(userDetails.getUsername());
         user.setEmail(userDetails.getEmail());
         user.setPassword(userDetails.getPassword());
-        User updatedUser = userServ.saveOrUpdateUser(user);
-        return ResponseEntity.ok().body(updatedUser);
+        User updatedUser = userService.saveOrUpdateUser(user);
+        return "redirect:/users/" + userId;
     }
-
-
-
-
 
     @GetMapping("user/signup")
     public String signup() {
@@ -70,10 +86,16 @@ public class UserCont {
         return "userhome";
     }
 
+    @PostMapping("/{id}/delete")
+    public String deleteUser(@PathVariable(value = "id") int userId) {
+        userService.deleteUser(userId);
+        return "redirect:/users/";
+    }
+
     @GetMapping("user/logout")
     public String logout() {
         return "logout";
     }
 
-
 }
+

@@ -9,23 +9,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/index")
 public class UserCont {
 
     @Autowired
     private UserServ userServ;
-
-    //    @GetMapping("/all")
-//    public ResponseEntity<List<User>> getAllUsers() {
-//        List<User> users = userServ.getAllUsers();
-//        return ResponseEntity.ok().body(users);
-//    }
-    @GetMapping("/all")
-    public String getAllUsers(Model model) {
-        List<User> users = userServ.getAllUsers();
-        model.addAttribute("users", users);
-        return "user-list";
+    @GetMapping
+    public String index() {
+        return "index";
     }
+
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute User user) {
@@ -46,15 +39,11 @@ public class UserCont {
         return ResponseEntity.ok().body(user);
     }
 
-    //    @PostMapping("/register")
-//    public ResponseEntity<User> registerUser(@RequestBody User user) {
-//        User savedUser = userServ.saveOrUpdateUser(user);
-//        return ResponseEntity.ok().body(savedUser);
-//    }
-    @PostMapping("/register")
+
+    @PostMapping("/home")
     public String registerUser(User user) {
         userServ.saveOrUpdateUser(user);
-        return "redirect:/users/all";
+        return "userhome";
     }
 
     @PutMapping("/{userId}")
@@ -67,15 +56,24 @@ public class UserCont {
         return ResponseEntity.ok().body(updatedUser);
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") int userId) {
-//        userServ.deleteUser(userId);
-//        return ResponseEntity.ok().build();
 
-    @DeleteMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable int userId) {
-        userServ.deleteUser(userId);
-        return "redirect:/users/all";
+
+
+
+    @GetMapping("user/signup")
+    public String signup() {
+        return "signup";
     }
+
+    @GetMapping("user/userhome")
+    public String register() {
+        return "userhome";
+    }
+
+    @GetMapping("user/logout")
+    public String logout() {
+        return "logout";
+    }
+
 
 }

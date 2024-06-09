@@ -12,8 +12,8 @@ import java.util.List;
 public class UserCont {
 
     @Autowired
-
     private UserServ userServ;
+  
     @GetMapping
     public String index() {
         return "index";
@@ -26,6 +26,9 @@ public class UserCont {
         return "redirect:/users/" + user.getUserId();
     private UserServ userService;
     }
+
+    @GetMapping
+    public String home(){return "index";}
 
     @GetMapping("/")
     public String getAllUsers(Model model) {
@@ -90,6 +93,11 @@ public class UserCont {
     public String deleteUser(@PathVariable(value = "id") int userId) {
         userService.deleteUser(userId);
         return "redirect:/users/";
+    }
+
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login";
     }
 
     @GetMapping("user/logout")

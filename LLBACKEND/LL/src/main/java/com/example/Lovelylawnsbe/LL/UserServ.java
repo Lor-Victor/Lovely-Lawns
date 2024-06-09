@@ -16,8 +16,8 @@ public class UserServ {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(int id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserById(int userId) {
+        return userRepository.findById(userId);
     }
 
     public User saveOrUpdateUser(User user) {

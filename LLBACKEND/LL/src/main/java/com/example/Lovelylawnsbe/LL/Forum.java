@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="forum")
 public class Forum {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int forumId;
     private String title;
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "forum", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
@@ -46,6 +51,10 @@ public class Forum {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
+    public User getUser() {return user;}
+
+    public void setUser(User user) {this.user = user;}
 }
 
 

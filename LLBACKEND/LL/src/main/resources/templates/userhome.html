@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/homestyles.css">
+    <title>Lovely Lawns</title>
+    <div class="header">
+        <div class="mainmenu">
+            <!-- Image Credit: https://pngtree.com/free-flower-clipart -->
+            <label class="mainhead"><img id="logo" src="/flower.png" alt="red flower logo">LovelyLawns</label>
+            <button class="nav-button" onclick="location.href='logout.html'">Logout</button>
+        </div>
+    </div>
+</head>
+<body>
+<div class="container">
+    <div class="sidebar left">
+        <label class="welcome">Welcome USER</label>
+        <button id="newpbtn">Create New Post</button>
+        <button id="newfbtn">Create New Forum</button>
+
+    </div>
+    <div class="main-content">
+        <div id="forums" class="forums">
+        </div>
+    </div>
+    <div class="sidebar right">
+        <h2>Visit your favorite forums</h2>
+        <button class="nav-button" onclick="location.href='myforums.html'">My Forums</button>
+        <h2>View your favorite posts</h2>
+        <button class="nav-button" onclick="location.href='myposts.html'">Liked Posts</button>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modalcontent">
+        <span class="closebtn">&times;</span>
+        <h2 id="modaltitle"></h2>
+        <input type="text" id="inputtitle" placeholder="Title">
+        <textarea id="inputcontent" placeholder="Content"></textarea>
+        <button id="submitbtn">Submit</button>
+    </div>
+</div>
+
+<script src="adminscript.js"></script>
+</body>
+</html>

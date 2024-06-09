@@ -68,6 +68,7 @@ public class AdminCont{
         postServ.deletePost(postId);
         return "redirect:/home/all-posts";
     }
+
     @GetMapping("/all-forums")
     public String getAllForums(Model model) {
         model.addAttribute("forums", forumServ.getAllForums());
@@ -78,8 +79,19 @@ public class AdminCont{
         forumServ.deleteForum(forumId);
         return "redirect:/home/all-forums";
     }
-    @GetMapping("/delete/announcement/{anncmtID}")
-    public String deleteAnnouncement(@RequestParam("anncmtId") int anncmtId) {
+    @GetMapping("/forum")
+    public String getForumById(@RequestParam("forumId") int forumId, Model model) {
+        try {
+            Forum forum = forumServ.getForumById(forumId).orElseThrow(() -> new ResourceNotFoundException("Forum not found with id: " + forumId));
+            model.addAttribute("forum", forum);
+            return "forum-detail";
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
+    }
+    @GetMapping("/delete/announcement/{anncmtId}")
+    public String deleteAnnouncement(@PathVariable int anncmtId) {
         announcementServ.deleteAnnouncement(anncmtId);
         return "redirect:/home/all-announcements";
     }
@@ -87,5 +99,24 @@ public class AdminCont{
     public String saveAnnouncement(@ModelAttribute("announcement") Announcement announcement) {
         announcementServ.saveAnnouncement(announcement);
         return "redirect:/home/announcements/list";
+    }
+    @GetMapping("/announcement")
+    public String getAnnouncementById(@RequestParam("anncmtId") int anncmtId, Model model) {
+        try {
+            Announcement announcement = announcementServ.getAnnouncementById(anncmtId);
+            if (announcement == null) {
+                throw new ResourceNotFoundException("Announcement not found with id: " + anncmtId);
+            }
+            model.addAttribute("announcement", announcement);
+            return "anncmt-detail";
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error";
+        }
+    }
+    @GetMapping("/all-announcements")
+    public String getAllAnnouncements(Model model) {
+        model.addAttribute("announcements", announcementServ.getAllAnnouncements());
+        return "anncmt-list";
     }
 }

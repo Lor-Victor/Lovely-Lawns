@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/index")
 public class UserCont {
 
     @Autowired
     private UserServ userService;
+
+    @GetMapping
+    public String home(){return "index";}
 
     @GetMapping("/")
     public String getAllUsers(Model model) {
@@ -61,6 +64,10 @@ public class UserCont {
     public String deleteUser(@PathVariable(value = "id") int userId) {
         userService.deleteUser(userId);
         return "redirect:/users/";
+    }
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login";
     }
 }
 

@@ -8,11 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/index")
 public class UserCont {
 
     @Autowired
+
+    private UserServ userServ;
+    @GetMapping
+    public String index() {
+        return "index";
+    }
+
+
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User user) {
+        userServ.saveOrUpdateUser(user);
+        return "redirect:/users/" + user.getUserId();
     private UserServ userService;
+    }
 
     @GetMapping("/")
     public String getAllUsers(Model model) {
@@ -32,6 +45,12 @@ public class UserCont {
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "register";
+    }
+
+    @PostMapping("/home")
+    public String registerUser(User user) {
+        userServ.saveOrUpdateUser(user);
+        return "userhome";
     }
 
     @PostMapping("/register")
@@ -57,12 +76,26 @@ public class UserCont {
         return "redirect:/users/" + userId;
     }
 
+    @GetMapping("user/signup")
+    public String signup() {
+        return "signup";
+    }
+
+    @GetMapping("user/userhome")
+    public String register() {
+        return "userhome";
+    }
+
     @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable(value = "id") int userId) {
         userService.deleteUser(userId);
         return "redirect:/users/";
     }
+
+    @GetMapping("user/logout")
+    public String logout() {
+        return "logout";
+    }
+
 }
-
-
 

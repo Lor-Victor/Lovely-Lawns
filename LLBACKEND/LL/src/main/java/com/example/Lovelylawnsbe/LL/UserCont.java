@@ -1,5 +1,7 @@
 package com.example.Lovelylawnsbe.LL;
 
+import com.example.Lovelylawnsbe.LL.Admin.Announcement;
+import com.example.Lovelylawnsbe.LL.Admin.AnnouncementServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,24 @@ public class UserCont {
 
     @Autowired
     private UserServ userService;
-  
+    @Autowired
+    private  ForumServ forumServ;
+    @Autowired
+    private AnnouncementServ announcementServ;
+
+    //the model will get all forum and announcements
+    //and show them on the page.
     @GetMapping
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("forums", forumServ.getAllForums());
+        model.addAttribute("announcements", announcementServ.getAllAnnouncements());
         return "index";
+    }
+    @GetMapping("/userhome")
+    public String userHome(Model model) {
+        model.addAttribute("forums", forumServ.getAllForums());
+        model.addAttribute("announcements", announcementServ.getAllAnnouncements());
+        return "userhome";
     }
 
 
@@ -47,10 +63,10 @@ public class UserCont {
         return "register";
     }
 
-    @PostMapping("/userhome")
+    @PostMapping("/registeruser")
     public String registerUser(User user) {
         userService.saveOrUpdateUser(user);
-        return "userhome";
+        return "redirect:/index/userhome";
     }
 
     @PostMapping("/register")

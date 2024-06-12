@@ -16,28 +16,12 @@
 <div id="body">
     <form action="/home/save" method="post">
         <h2>Create Announcement</h2>
-        <div id="body-content" style="text-align: left;">
-            <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" required><br>
-            <label for="content">Content:</label><br>
-            <textarea id="content" name="content" rows="4" cols="50"></textarea><br>
-<!--            <label for="title">Title:</label><br>-->
-<!--            <input type="text" id="title" name="title" th:field="{title}">-->
-<!--            <label for="content">Content:</label>-->
-<!--            <input type="text" id="content" name="content" th:field="{content}">-->
-            <button type="submit" style="width:fit-content;color:white;">Create Announcement</button>
-        </div>
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" th:value="${announcement.title}" placeholder="Enter title here" required><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="content" rows="4" cols="50" th:text="${announcement.content}" placeholder="Enter content here"></textarea><br>
+        <button type="submit" class="submit-button">Create Announcement</button>
     </form>
-<!--    <form action="/home/save" method="post" th:object="${announcement}">-->
-<!--        <h2>Create Announcement</h2>-->
-<!--        <div id="body-content" style="text-align: left;">-->
-<!--            <label for="title">Title:</label><br>-->
-<!--            <input type="text" id="title" name="title" th:field="*{title}" required><br>-->
-<!--            <label for="content">Content:</label><br>-->
-<!--            <input type="text" id="content" name="content" th:field="*{content}" required><br>-->
-<!--            <button type="submit" style="width:fit-content;color:white;">Create Announcement</button>-->
-<!--        </div>-->
-<!--    </form>-->
 </div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,19 +16,11 @@
 </head>
 <body>
 <div id="body">
-    <form action="/index/home" method="post" id="signupform">
-        <div id="body-content">
-            <h3>Create an account</h3>
-            <p>Email:</p>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <p>Username:</p>
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <p>Password:</p>
-            <input type="password" id="password" name="password" placeholder="Password" required><br>
-<!--            <button type="submit" class="btn btn-primary">Create New User</button>-->
-            <button class="nav-button" onclick="location.href='/index/user/userhome'">Register</button>
-            <p id="signin">Have an account? <a onclick="location.href='/index/user/signup'"> Sign in</a></p>
-        </div>
+    <form action="/index/registeruser" method="post" >
+        <label>Username: <input type="text" id="username" name="username" placeholder="Username" /></label><br />
+        <label>Email: <input type="email" id="email" name="email" placeholder="Email" /></label><br />
+        <label>Password: <input type="password" id="password" name="password" placeholder="Password" /></label><br />
+        <button type="submit">Create New User</button>
     </form>
 </div>
 <script src="../../../../../../script.js"></script>

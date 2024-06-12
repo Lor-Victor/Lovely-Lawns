@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Announcement</title>
+    <link rel="stylesheet" href="/styles.css">
+    <div class="header">
+        <div class="mainmenu">
+            <!-- Image Credit: https://pngtree.com/free-flower-clipart -->
+            <label class="mainhead"><img id="logo" src="/flower.png" alt="red flower logo">LovelyLawns</label>
+            Admin
+        </div>
+    </div>
+</head>
+<body>
+<div id="body">
+    <form action="/home/save" method="post">
+        <h2>Create Announcement</h2>
+        <div id="body-content" style="text-align: left;">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" required><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content" rows="4" cols="50"></textarea><br>
+<!--            <label for="title">Title:</label><br>-->
+<!--            <input type="text" id="title" name="title" th:field="{title}">-->
+<!--            <label for="content">Content:</label>-->
+<!--            <input type="text" id="content" name="content" th:field="{content}">-->
+            <button type="submit" style="width:fit-content;color:white;">Create Announcement</button>
+        </div>
+    </form>
+<!--    <form action="/home/save" method="post" th:object="${announcement}">-->
+<!--        <h2>Create Announcement</h2>-->
+<!--        <div id="body-content" style="text-align: left;">-->
+<!--            <label for="title">Title:</label><br>-->
+<!--            <input type="text" id="title" name="title" th:field="*{title}" required><br>-->
+<!--            <label for="content">Content:</label><br>-->
+<!--            <input type="text" id="content" name="content" th:field="*{content}" required><br>-->
+<!--            <button type="submit" style="width:fit-content;color:white;">Create Announcement</button>-->
+<!--        </div>-->
+<!--    </form>-->
+</div>
+</body>
+</html>

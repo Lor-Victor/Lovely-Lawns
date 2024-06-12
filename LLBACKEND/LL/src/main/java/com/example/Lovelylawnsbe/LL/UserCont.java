@@ -12,7 +12,7 @@ import java.util.List;
 public class UserCont {
 
     @Autowired
-    private UserServ userServ;
+    private UserServ userService;
   
     @GetMapping
     public String index() {
@@ -22,13 +22,10 @@ public class UserCont {
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute User user) {
-        userServ.saveOrUpdateUser(user);
+        userService.saveOrUpdateUser(user);
         return "redirect:/users/" + user.getUserId();
-    private UserServ userService;
     }
 
-    @GetMapping
-    public String home(){return "index";}
 
     @GetMapping("/")
     public String getAllUsers(Model model) {
@@ -50,9 +47,9 @@ public class UserCont {
         return "register";
     }
 
-    @PostMapping("/home")
+    @PostMapping("/userhome")
     public String registerUser(User user) {
-        userServ.saveOrUpdateUser(user);
+        userService.saveOrUpdateUser(user);
         return "userhome";
     }
 
@@ -79,7 +76,7 @@ public class UserCont {
         return "redirect:/users/" + userId;
     }
 
-    @GetMapping("user/signup")
+    @GetMapping("/signup")
     public String signup() {
         return "signup";
     }

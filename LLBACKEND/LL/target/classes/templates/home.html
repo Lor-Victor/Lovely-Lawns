@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/page.css">
+    <title>Lovely Lawns</title>
+    <div class="header">
+        <div class="mainmenu">
+            <!-- Image Credit: https://pngtree.com/free-flower-clipart -->
+            <label class="mainhead"><img id="logo" src="/flower.png" alt="red flower logo">LovelyLawns</label>
+            Admin
+        </div>
+    </div>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar left">
+            <label class="welcome">Welcome!</label>
+            <button id="newpbtn">Create New Post</button>
+            <button id="newfbtn">Create New Forum</button>
+            <button id="announcebtn" onclick="location.href='/home/create-page'">Create Announcement</button>
+        </div>
+        <div class="main-content">
+            <div id="announcements" class="announcements">
+                <div th:each="announcement : ${announcements}" class="anncard" >
+                    <div class="bodycard" style="padding: 20px;">
+                        <h5 class="titlecard" th:text="${announcement.title}" >Announcement Title</h5>
+                        <h6 class="subtitlecard"
+                        th:text=" 'ID : #' + ${announcement.anncmtId}">Announcement ID: </h6>
+                        <p class="textcard"
+                           th:text="${announcement.content}">Announcement Content</p>
+                    </div>
+                </div>
+            </div>
+            <div id="forums" class="forums">
+                <div th:each="forum : ${forums}" class="forum-body anncard" style="border: 1px solid #ddd;">
+                    <h3 th:text="${forum.title}" class="titlecard"></h3>
+                    <p class="forum-id subtitlecard" th:text="'ID: ' + ${forum.forumId}"></p>
+                    <p th:text="'By: ' + ${forum.user.username} + ' (' + ${forum.user.userId} + ')'"></p>
+                    <p th:text="${forum.content}" class="textcard"></p>
+                    <div class="posts-container bodycard">
+                        <div th:each="post : ${forum.posts}" class="post-card" style="border-top: 1px dotted #ddd">
+                            <h4 th:text="${post.title}">Post Title</h4>
+                            <p class="post-id" th:text="'ID: ' + ${post.postId}" style="color:gray">ID:</p>
+                            <p th:text="'By: ' + ${post.user.username} + ' (' + ${post.user.userId} + ')'"></p>
+                            <p th:text="${post.content}">Post Content</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar right">
+            <label class="welcome">Visit your favorite forums</label>
+            <button class="nav-button" onclick="location.href='myforums.html'">My Forums</button>
+            <h4>View your favorite posts</h4>
+            <button class="nav-button" onclick="location.href='myposts.html'">Liked Posts</button>
+            <h4>Manage</h4>
+            <button class="nav-button" onclick="location.href='/home/all-users'">Users</button>
+            <button class="nav-button" onclick="location.href='/home/all-posts'">Posts</button>
+            <button class="nav-button" onclick="location.href='/home/all-forums'">Forums</button>
+            <button class="nav-button" onclick="location.href='/home/all-announcements'">Announcements</button>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modalcontent">
+            <span class="closebtn">&times;</span>
+            <h2 id="modaltitle"></h2>
+            <input type="text" id="inputtitle" placeholder="Title">
+            <textarea id="inputcontent" placeholder="Content"></textarea>
+            <button id="submitbtn">Submit</button>
+        </div>
+    </div>
+
+    <script src="/adminscript.js"></script>
+</body>
+</html>

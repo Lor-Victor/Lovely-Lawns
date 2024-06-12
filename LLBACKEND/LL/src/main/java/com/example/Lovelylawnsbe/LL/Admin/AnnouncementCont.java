@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/announcement")
 public class AnnouncementCont {
     @Autowired
     private  AnnouncementServ announcementServ;
@@ -17,7 +16,14 @@ public class AnnouncementCont {
 //    }
     @PostMapping("/save")
     public String saveAnnouncement(@ModelAttribute("announcement") Announcement announcement) {
-        announcementServ.saveAnnouncement(announcement);
-        return "redirect:/home/announcements/list";
+        announcementServ.createAnnouncement(announcement);
+        return "redirect:/home/all-announcements";
     }
+    @GetMapping("/announce/post")
+    public String addNewAnnouncement(Announcement announcement) {
+        announcementServ.createAnnouncement(announcement);
+        return "redirect:/home/all-announcements";
+    }
+
+
 }

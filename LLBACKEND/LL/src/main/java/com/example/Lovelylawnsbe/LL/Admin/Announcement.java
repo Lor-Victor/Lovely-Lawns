@@ -1,5 +1,6 @@
 package com.example.Lovelylawnsbe.LL.Admin;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,9 +9,9 @@ public class Announcement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int anncmtId;
+    @Nonnull
     private String title;
     private String content;
-
 
     public int getAnncmtId() {
         return anncmtId;
@@ -35,6 +36,7 @@ public class Announcement {
     public void setContent(String content) {
         this.content = content;
     }
+
 
 
 }

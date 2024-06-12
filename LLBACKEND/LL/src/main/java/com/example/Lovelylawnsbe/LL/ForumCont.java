@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/forums")
 public class ForumCont {
 
@@ -22,8 +22,7 @@ public class ForumCont {
 
     @GetMapping("/")
     public ResponseEntity<List<Forum>> getAllForums() {
-        List<Forum> forums = forumServ.getAllForums();
-        return ResponseEntity.ok().body(forums);
+        return ResponseEntity.ok(forumServ.getAllForums());
     }
 
     @GetMapping("/{id}")

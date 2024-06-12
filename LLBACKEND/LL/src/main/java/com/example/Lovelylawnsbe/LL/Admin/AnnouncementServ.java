@@ -11,7 +11,7 @@ public class AnnouncementServ {
     @Autowired
     private AnnouncementRep announcementRep;
 
-    public Object getAllAnnouncements() {
+    public List<Announcement> getAllAnnouncements() {
         return announcementRep.findAll();
     }
 
@@ -19,11 +19,8 @@ public class AnnouncementServ {
         return announcementRep.findById(anncmtId).orElse(null);
     }
 
-
-    public void saveAnnouncement(Announcement announcement) {
-        announcementRep.save(announcement);
+    public void createAnnouncement(Announcement announcement) { announcementRep.save(announcement);
     }
-
     public void deleteAnnouncement(int anncmtId) {
         announcementRep.deleteById(anncmtId);
     }

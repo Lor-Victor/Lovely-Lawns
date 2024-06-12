@@ -8,25 +8,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     ></script>
     <title>LovelyLawns Admin Users</title>
+</head>
+<body>
+<div>
     <div class="header">
         <div class="mainmenu">
             <!-- Image Credit: https://pngtree.com/free-flower-clipart -->
             <label class="mainhead"><img id="logo" src="/flower.png" alt="red flower logo">LovelyLawns</label>
             Admin
-            <button class="nav-button" onclick="location.href='/home'"> Return to home page</button>
         </div>
     </div>
-</head>
-<body>
+    <nav style="background-color: #4CAF50; text-align:center;">
+        <ul class="nav justify-content-center" >
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link active" aria-current="page" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/home/all-posts">Manage Posts</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/home/all-forums">Manage Forums</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/home/all-announcements">Manage Announcements</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 <div class="container">
     <h1>User List</h1>
-    <form action="/users/register" method="post">
-        <input type="text" id="username" name="username" placeholder="Username" required/>
-        <input type="email" id="email" name="email" placeholder="Email" required/>
-        <input type="password" id="password" name="password" placeholder="Password" required/>
-        <button type="submit" class="btn btn-primary">Create New User</button>
+    <form action="/home/user" method="get">
+        <input type="text" id="userId" name="userId" placeholder="User Id" required/>
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
-
     <table class="table table-striped mt-3">
         <thead>
         <tr>
@@ -43,7 +57,7 @@
             <td data-th-text="${user.username}"></td>
             <td data-th-text="${user.email}"></td>
             <td>
-                <a class="btn btn-delete" data-th-href="@{/users/delete/{userId}(userId=${user.userId})}" onclick="return confirm ('Are your sure?')">Delete User</a>
+                <a class="btn btn-delete" data-th-href="@{/home/delete/user/{userId}(userId=${user.userId})}" onclick="return confirm ('Would you like to delete this user?')">Delete User</a>
             </td>
         </tr>
         </tbody>

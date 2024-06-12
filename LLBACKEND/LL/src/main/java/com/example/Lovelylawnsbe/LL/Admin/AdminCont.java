@@ -100,11 +100,6 @@ public class AdminCont{
         return "redirect:/home/all-announcements";
     }
 
-//    @PostMapping("/save")
-//    public String createAnnouncement(@ModelAttribute("announcement") Announcement announcement) {
-//        announcementServ.createAnnouncement(announcement);
-//        return "redirect:/home/all-announcements";
-//    }
     @GetMapping("/announcement")
     public String getAnnouncementById(@RequestParam("anncmtId") int anncmtId, Model model) {
         try {
@@ -125,19 +120,8 @@ public class AdminCont{
         return "anncmt-list";
     }
 
-//    @GetMapping("/create-page")
-//    public String createAnnouncementPage(){
-//        return "create-anncmt";
-//    }
-
-//    @PostMapping("/announcement")
-//    public String createNewAnnouncement(Announcement announcement) {
-//        announcementServ.createAnnouncement(announcement);
-//        return "redirect:/home/all-announcements";
-//    }
     @GetMapping("/create-page")
     public String createAnnouncementPage(Model model) {
-        //Announcement announcement = new Announcement();
         model.addAttribute("announcement", new Announcement());
         return "create-anncmt";
     }

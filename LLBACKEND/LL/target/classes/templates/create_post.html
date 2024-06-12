@@ -1,18 +1,48 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create New Post</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Create New Post - Lovely Lawns</title>
 </head>
 <body>
-<h1>Create New Post</h1>
-<form th:action="@{/posts/new}" th:object="${post}" method="post">
-    <label>Title: <input type="text" th:field="*{title}" name="title" /></label><br />
-    <label>Content: <textarea th:field="*{content}" name="content"></textarea></label><br />
-    <label>Username: <input type="text" th:field="*{user.username}" name="user.username" /></label><br />
-    <input type="submit" value="Submit" />
-</form>
+<div class="header">
+    <div class="mainmenu">
+        <label class="mainhead">LovelyLawns</label>
+        <h3>A place to connect with fellow gardeners, share tips, and grow together!</h3>
+        <form class="pure-form">
+            <fieldset>
+                <legend>Log in or create an account!</legend>
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Password" />
+                <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+                <p id="reg">Don't have an account? <a href="signup.html">Sign Up </a></p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="main-content">
+    <h1>Create New Post</h1>
+    <form th:action="@{/posts/new}" th:object="${post}" method="post">
+        <label>Title: <input type="text" th:field="*{title}" name="title" /></label><br />
+        <label>Content: <textarea th:field="*{content}" name="content"></textarea></label><br />
+        <label>Username: <input type="text" th:field="*{user.username}" name="user.username" /></label><br />
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modalcontent">
+        <span class="closebtn">&times;</span>
+        <h2 id="modaltitle"></h2>
+        <input type="text" id="inputtitle" placeholder="Title">
+        <textarea id="inputcontent" placeholder="Content"></textarea>
+        <button id="submitbtn">Submit</button>
+    </div>
+</div>
+
 </body>
 </html>
-
 

@@ -622,5 +622,32 @@ input{
 .replies-container {
     margin-top: 10px;
 }
+.anncard {
+    border: 1px solid #4CAF50;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px; /* Add margin-bottom to create space after each announcement card */
+}
 
+.bodycard {
+    padding: 20px;
+}
 
+.titlecard {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.subtitlecard {
+    color: gray;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    margin-top: 0;
+}
+
+.textcard {
+    font-size: 1rem;
+    color: #333;
+}

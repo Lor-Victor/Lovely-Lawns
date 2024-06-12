@@ -1,17 +1,20 @@
 package com.example.Lovelylawnsbe.LL;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/api/perenual")
@@ -24,64 +27,65 @@ public class PerenualApiController {
 
     @Autowired
     private PlantRepository plantRepository;
-
     @Autowired
     private PlantService plantService;
 
     @GetMapping("/getPlantInfoByCommonName/{commonName}")
     public String getPlantInfoByCommonName(@PathVariable("commonName") String commonName, Model model) {
         try {
-            int plantId = plantService.findPlantIdByCommonName(commonName);
-
-            if (plantId != -1) {
-                return getPlantInfo(plantId, model);
-            } else {
-                logger.error("Plant ID not found for common name: {}", commonName);
-                return "error";
-            }
+            return getPlantInfoFromTrefle(commonName, model);
         } catch (Exception ex) {
             logger.error("Error fetching and saving plant information", ex);
             return "error";
         }
     }
 
-    @GetMapping("/{id}")
-    public String getPlantInfo(@PathVariable("id") int id, Model model) {
+    public String getPlantInfoFromTrefle(String commonName, Model model) {
         try {
-            String apiKey = "sk-2Nhi665bcf08e8e7c5760";
-            String apiUrl = "https://perenual.com/api/species/details/" + id + "?key=" + apiKey;
+            String apiKey = "IoF526eus0xDhIcm35_0B_-yixmW5xXQdRYosyjuPa4";
+            String apiUrl = "https://trefle.io/api/v1/species?token=" + apiKey + "&filter[common_name]=" + commonName;
             RestTemplate restTemplate = new RestTemplate();
             String jsonResponse = restTemplate.getForObject(apiUrl, String.class);
 
             JsonNode root = objectMapper.readTree(jsonResponse);
-            String commonName = root.get("common_name").asText();
-            String scientificName = root.path("scientific_name").get(0).asText();
-            String otherNames = root.path("other_name").asText();
-            String sunlight = root.get("sunlight").get(0).asText();
-            String origin = root.path("origin").get(0).asText();
-            String cycle = root.path("cycle").asText();
-            String watering = root.path("watering").asText();
-            String description = root.path("description").asText();
-            String maintenance = root.path("maintenance").asText();
-            String growth_rate = root.path("growth_rate").asText();
+            JsonNode data = root.path("data").get(0);
 
-            model.addAttribute("commonName", commonName);
+            String commonNameFromApi = data.path("common_name").asText();
+            String scientificName = data.path("scientific_name").asText();
+            String slug = data.path("slug").asText();
+            int year = data.path("year").asInt();
+            String bibliography = data.path("bibliography").asText();
+            String author = data.path("author").asText();
+            String status = data.path("status").asText();
+            String rank = data.path("rank").asText();
+            String familyCommonName = data.path("family_common_name").asText();
+            int genusId = data.path("genus_id").asInt();
+            String imageUrl = data.path("image_url").asText();
+            String genus = data.path("genus").asText();
+            String family = data.path("family").asText();
+            List<String> synonyms = new ArrayList<>();
+            data.path("synonyms").forEach(synonym -> synonyms.add(synonym.asText()));
+
+            model.addAttribute("commonName", commonNameFromApi);
             model.addAttribute("scientificName", scientificName);
-            model.addAttribute("otherNames", otherNames);
-            model.addAttribute("sunlight", sunlight);
-            model.addAttribute("origin", origin);
-            model.addAttribute("cycle", cycle);
-            model.addAttribute("watering", watering);
-            model.addAttribute("description", description);
-            model.addAttribute("maintenance", maintenance);
-            model.addAttribute("growth_rate", growth_rate);
+            model.addAttribute("slug", slug);
+            model.addAttribute("year", year);
+            model.addAttribute("bibliography", bibliography);
+            model.addAttribute("author", author);
+            model.addAttribute("status", status);
+            model.addAttribute("rank_value", rank);
+            model.addAttribute("familyCommonName", familyCommonName);
+            model.addAttribute("genusId", genusId);
+            model.addAttribute("imageUrl", imageUrl);
+            model.addAttribute("genus", genus);
+            model.addAttribute("family", family);
+            model.addAttribute("synonyms", synonyms);
 
-            Plant plant = new Plant();
-            plant.setCommon_name(commonName);
+            Plant plant = new Plant(commonNameFromApi, scientificName, slug, year, bibliography, author, status, rank, familyCommonName, genusId, imageUrl, genus, family, synonyms);
 
             Plant savedPlant = plantRepository.save(plant);
 
-            logger.info("Plant info saved: {}", savedPlant);
+            logger.info("Plant information saved: {}", savedPlant);
 
             return "Plantinfo";
         } catch (Exception ex) {

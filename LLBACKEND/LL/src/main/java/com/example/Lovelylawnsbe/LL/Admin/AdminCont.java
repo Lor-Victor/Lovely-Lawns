@@ -20,7 +20,9 @@ public class AdminCont{
     private AnnouncementServ announcementServ;
 
     @GetMapping
-    public String home() {
+    public String homePage(Model model) {
+        model.addAttribute("forums", forumServ.getAllForums());
+        model.addAttribute("announcements", announcementServ.getAllAnnouncements());
         return "home";
     }
 
@@ -74,11 +76,13 @@ public class AdminCont{
         model.addAttribute("forums", forumServ.getAllForums());
         return "forum-list";
     }
+
     @GetMapping("/delete/forum/{forumId}")
     public String deleteForum(@PathVariable int forumId) {
         forumServ.deleteForum(forumId);
         return "redirect:/home/all-forums";
     }
+
     @GetMapping("/forum")
     public String getForumById(@RequestParam("forumId") int forumId, Model model) {
         try {
@@ -95,11 +99,12 @@ public class AdminCont{
         announcementServ.deleteAnnouncement(anncmtId);
         return "redirect:/home/all-announcements";
     }
-    @PostMapping("/save")
-    public String saveAnnouncement(@ModelAttribute("announcement") Announcement announcement) {
-        announcementServ.saveAnnouncement(announcement);
-        return "redirect:/home/announcements/list";
-    }
+
+//    @PostMapping("/save")
+//    public String createAnnouncement(@ModelAttribute("announcement") Announcement announcement) {
+//        announcementServ.createAnnouncement(announcement);
+//        return "redirect:/home/all-announcements";
+//    }
     @GetMapping("/announcement")
     public String getAnnouncementById(@RequestParam("anncmtId") int anncmtId, Model model) {
         try {
@@ -118,5 +123,28 @@ public class AdminCont{
     public String getAllAnnouncements(Model model) {
         model.addAttribute("announcements", announcementServ.getAllAnnouncements());
         return "anncmt-list";
+    }
+
+//    @GetMapping("/create-page")
+//    public String createAnnouncementPage(){
+//        return "create-anncmt";
+//    }
+
+//    @PostMapping("/announcement")
+//    public String createNewAnnouncement(Announcement announcement) {
+//        announcementServ.createAnnouncement(announcement);
+//        return "redirect:/home/all-announcements";
+//    }
+    @GetMapping("/create-page")
+    public String createAnnouncementPage(Model model) {
+        //Announcement announcement = new Announcement();
+        model.addAttribute("announcement", new Announcement());
+        return "create-anncmt";
+    }
+
+    @PostMapping("/save")
+    public String createNewAnnouncement(Announcement announcement) {
+        announcementServ.createAnnouncement(announcement);
+        return "redirect:/home/all-announcements";
     }
 }

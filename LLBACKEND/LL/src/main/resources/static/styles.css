@@ -341,7 +341,7 @@ body {
 .main-content {
     flex-grow: 1;
     padding: 20px;
-    background-color: #fff;
+    background-color: #00000;
     overflow-y: auto;
 }
 
@@ -622,4 +622,5 @@ input{
 .replies-container {
     margin-top: 10px;
 }
+
 

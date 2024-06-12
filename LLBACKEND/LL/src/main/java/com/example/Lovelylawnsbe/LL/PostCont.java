@@ -21,11 +21,15 @@ public class PostCont {
     @Autowired
     private UserServ userService;
 
-    @GetMapping("/")
-    public String getAllPosts(Model model) {
-        List<Post> posts = postService.getAllPosts();
-        model.addAttribute("posts", posts);
-        return "posts";
+//    @GetMapping("/")
+//    public String getAllPosts(Model model) {
+//        List<Post> posts = postService.getAllPosts();
+//        model.addAttribute("posts", posts);
+//        return "posts";
+//    }
+    @GetMapping
+    public List<Post> getAllPosts(){
+        return postService.getAllPosts();
     }
 
     @GetMapping("/{id}")

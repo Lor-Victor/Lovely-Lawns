@@ -8,8 +8,37 @@
     <title>LovelyLawns Admin Forums</title>
 </head>
 <body>
+<div>
+    <div class="header">
+        <div class="mainmenu">
+            <!-- Image Credit: https://pngtree.com/free-flower-clipart -->
+            <label class="mainhead"><img id="logo" src="/flower.png" alt="red flower logo">LovelyLawns</label>
+            Admin
+        </div>
+    </div>
+    <nav style="background-color: #4CAF50; text-align:center;">
+        <ul class="nav justify-content-center" >
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link active" aria-current="page" href="/home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/home/all-users">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/home/all-posts">Manage Posts</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: #ffffff" class="nav-link" href="/home/all-announcements">Manage Announcements</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 <div class="container">
     <h1>Forum List</h1>
+    <form action="/home/forum" method="get">
+        <input type="text" id="forumId" name="forumId" placeholder="Forum Id" required/>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
     <table class="table table-striped mt-3">
         <thead>
         <tr>
@@ -22,14 +51,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="forum : ${forums}">
-            <td th:text="${forum.forumId}"></td>
-            <td th:text="${forum.title}"></td>
-            <td th:text="${forum.content}"></td>
-            <td th:text="${forum.user.userId}"></td>
-            <td th:text="${forum.user.username}"></td>
+        <tr data-th-each="forum : ${forums}">
+            <td data-th-text="${forum.forumId}"></td>
+            <td data-th-text="${forum.title}"></td>
+            <td data-th-text="${forum.content}"></td>
+            <td data-th-text="${forum.user.userId}"></td>
+            <td data-th-text="${forum.user.username}"></td>
             <td>
-                <a class="btn btn-delete" th:href="@{/home/delete/forum/{forumId}(forumId=${forum.forumId})}" onclick="return confirm('Are you sure?')">Delete Forum</a>
+                <a class="btn btn-delete" data-th-href="@{/home/delete/forum/{forumId}(forumId=${forum.forumId})}" onclick="return confirm('Are you sure?')">Delete Forum</a>
             </td>
         </tr>
         </tbody>

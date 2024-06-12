@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../../../../../../styles.css">
     <link rel="stylesheet" href="styles.css">
     <title>Lovely Lawns</title> 
     <div class="header">
@@ -15,14 +13,13 @@
             <form class="pure-form">
                 <fieldset >
                     <legend>Log in or create an account!</legend>
-                    <input type="email" placeholder="Email" />
+                    <input type="username" placeholder="Username" />
                     <input type="password" placeholder="Password" />
                     <button type="submit" class="pure-button pure-button-primary">Sign in</button>
-                    <p id="reg">Don't have an account? <a href="../../../../../../signup.html">Sign Up </a></p>
+                    <p id="reg">Don't have an account? <a href="/index/signup">Sign Up </a></p>
                     <!-- <label for="default-remember">
                         <input type="checkbox" id="default-remember" /> Remember me
                     </label> -->
-                    <button type="submit" class="pure-button pure-button-primary">Sign in</button>
                     <a class="nav-button" onclick="location.href='/index/user/signup'">sign up</a>
                 </fieldset>
             </form>
@@ -37,8 +34,33 @@
             <button id="newfbtn">Create New Forum</button>
         </div>
         <div class="main-content">
-            <div id="forums" class="forums">
-            </div>
+                <div id="announcements" class="announcements">
+                    <div th:each="announcement : ${announcements}" class="anncard" >
+                        <div class="bodycard" style="padding: 20px;">
+                            <h5 class="titlecard" th:text="${announcement.title}" >Announcement Title</h5>
+                            <h6 class="subtitlecard"
+                                th:text=" 'ID : #' + ${announcement.anncmtId}">Announcement ID: </h6>
+                            <p class="textcard"
+                               th:text="${announcement.content}">Announcement Content</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="forums" class="forums">
+                    <div th:each="forum : ${forums}" class="forum-body anncard" style="border: 1px solid #ddd;">
+                        <h3 th:text="${forum.title}" class="titlecard"></h3>
+                        <p class="forum-id subtitlecard" th:text="'ID: ' + ${forum.forumId}"></p>
+                        <p th:text="'By: ' + ${forum.user.username} + ' (' + ${forum.user.userId} + ')'"></p>
+                        <p th:text="${forum.content}" class="textcard"></p>
+                        <div class="posts-container bodycard">
+                            <div th:each="post : ${forum.posts}" class="post-card" style="border-top: 1px dotted #ddd">
+                                <h4 th:text="${post.title}">Post Title</h4>
+                                <p class="post-id" th:text="'ID: ' + ${post.postId}" style="color:gray">ID:</p>
+                                <p th:text="'By: ' + ${post.user.username} + ' (' + ${post.user.userId} + ')'"></p>
+                                <p th:text="${post.content}">Post Content</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
         <div class="sidebar right">
             <h2>Visit your favorite forums</h2>
